@@ -7,11 +7,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Todo } from '../../../../core/models/todo';
 import { TodoService } from '../../../../core/services/todo-service';
+import { MessageQueueService } from '../../../../core/services/message-queue-service';
+import { ActionTypes } from '../../../../core/enums/action-types';
 @Component({
   selector: 'app-todo-form',
   imports: [
-    MatFormFieldModule,
     FormsModule,
+    MatFormFieldModule,
     MatCheckboxModule,
     MatInputModule,
     MatButtonModule,
@@ -22,6 +24,7 @@ import { TodoService } from '../../../../core/services/todo-service';
 })
 export class TodoForm {
   todoService: TodoService = inject(TodoService);
+  messageQueueService: MessageQueueService = inject(MessageQueueService)
   
 
   todoFormModel:Todo={
@@ -30,7 +33,13 @@ export class TodoForm {
   }
   
   submitTodo(){
+    this.messageQueueService.dispatch({
+      type:ActionTypes.NEW_TODO,
+      payload:this.todoFormModel
+    })
+    
     // console.log(this.todoFormModel)
-    this.todoService.save(this.todoFormModel).subscribe()
+    // this.todoService.save(this.todoFormModel).subscribe(()=>{
+    // })
   }
 }
