@@ -1,0 +1,25 @@
+<form (ngSubmit)="submitTodo()" #todoForm = "ngForm">
+  
+    <mat-form-field>
+    <mat-label>Todo title</mat-label>
+    <input required 
+    name="todoTitle" 
+    matInput 
+    [(ngModel)] = "todoFormModel.title" 
+    #todoTitle="ngModel"
+    />
+    @if (todoTitle.invalid && todoTitle.touched) {
+        <mat-error>Hooooooooo !!!!!!</mat-error>
+    }
+  </mat-form-field>
+
+  valid: {{todoTitle.valid}}
+  <br />
+
+  <br />
+  
+  <mat-checkbox name="todoCompleted" [(ngModel)] = "todoFormModel.completed">Completed ?</mat-checkbox>
+  <br />
+  <button matButton="filled" [disabled]="todoForm.invalid">Submit</button>
+
+</form>
